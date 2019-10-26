@@ -4,25 +4,25 @@
     <!-- 卡片容器  el-card是一个element组件，根元素上默认添加一个类和组件的名称一致 -->
     <el-card>
       <img src="../../assets/logo_index.png" alt />
-    <el-form :model="LoginForm">
-      <el-form-item>
-        <el-input v-model="LoginForm.mobile" placeholder="请输入手机号"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input
-          v-model="LoginForm.code"
-          placeholder="请输入验证码"
-          style="width:240px;margin-right:8px"
-        ></el-input>
-        <el-button>发送验证码</el-button>
-      </el-form-item>
-      <el-form-item>
-        <el-checkbox :value="true">我已阅读并同意用户协议和隐私条款</el-checkbox>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary"  style="width:100%;">登录</el-button>
-      </el-form-item>
-    </el-form>
+      <el-form ref="loginForm" :model="LoginForm" :rules="LoginRules">
+        <el-form-item prop="mobile">
+          <el-input v-model="LoginForm.mobile" placeholder="请输入手机号"></el-input>
+        </el-form-item>
+        <el-form-item prop="code">
+          <el-input
+            v-model="LoginForm.code"
+            placeholder="请输入验证码"
+            style="width:240px;margin-right:8px"
+          ></el-input>
+          <el-button>发送验证码</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-checkbox :value="true">我已阅读并同意用户协议和隐私条款</el-checkbox>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="login" style="width:100%;">登录</el-button>
+        </el-form-item>
+      </el-form>
     </el-card>
   </div>
 </template>
@@ -30,11 +30,39 @@
 <script>
 export default {
   data () {
+    const checkMobile = (rule, value, callback) => {
+      // 去判断value是否符合手机号格式
+      // 格式：1开头  第二位 3-9 之间  9位数字结尾
+      if (/^1[3-9]\d{9}$/.test(value)) {
+        callback()
+      } else {
+        callback(new Error('手机号格式不对'))
+      }
+    }
     return {
       LoginForm: {
         mobile: '',
         code: ''
+      },
+      LoginRules: {
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, trigger: 'blur' }
+        ],
+        code: [
+          { len: 6, message: '长度应为6个字符', trigger: 'blur' },
+          { required: true, message: '请输入验证码', trigger: 'blur' }
+        ]
       }
+    }
+  },
+  methods: {
+    login () {
+      this.$refs['loginForm'].validate(valid => {
+        if (valid) {
+          console.log('ok')
+        }
+      })
     }
   }
 }
