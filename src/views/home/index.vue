@@ -1,14 +1,16 @@
 <template>
   <div class="container">
     <el-container class="home-container">
-      <el-aside width="200px">
-        <div class="logo"></div>
+      <el-aside :width="isOpen?'200px':'64px'">
+        <div class="logo" :class="{smallLogo:!isOpen}"></div>
         <el-menu
           default-active="1"
           background-color="#002033"
           text-color="#fff"
           active-text-color="#ffd04b"
           style="border-right:none"
+          :collapse="!isOpen"
+          :collapse-transition="false"
         >
           <el-menu-item v-for="(iteam,i) in menu" :key="i" :index="iteam.id">
             <i :class="iteam.icon"></i>
@@ -19,7 +21,7 @@
       <el-container>
         <el-header>
           <!-- 图标 -->
-          <span class="el-icon-s-fold icon"></span>
+          <span class="el-icon-s-fold icon" @click="toggleMenu"></span>
           <!-- 文字 -->
           <span class="text">江苏传智播客科技教育有限公司</span>
           <!-- 下拉菜单组件 -->
@@ -55,7 +57,14 @@ export default {
         { id: '5', name: '评论管理', icon: 'el-icon-chat-dot-round' },
         { id: '6', name: '粉丝管理', icon: 'el-icon-present' },
         { id: '7', name: '个人设置', icon: 'el-icon-setting' }
-      ]
+      ],
+      isOpen: true
+    }
+  },
+  methods: {
+    toggleMenu () {
+      // 切换侧边栏  展开与收起
+      this.isOpen = !this.isOpen
     }
   }
 }
@@ -107,6 +116,10 @@ export default {
     height: 60px;
     background: #002244 url(../../assets/logo_admin.png) no-repeat center /
       140px auto;
+  }
+  .smallLogo {
+    background-image: url(../../assets/logo_admin_01.png);
+    background-size: 36px auto;
   }
 }
 </style>
