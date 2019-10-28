@@ -60,7 +60,14 @@ export default {
     login () {
       this.$refs['loginForm'].validate(valid => {
         if (valid) {
-          console.log('ok')
+          this.$http
+            .post('authorizations', this.LoginForm)
+            .then(res => {
+              this.$router.push('/')
+            })
+            .catch(() => {
+              this.$message.error('手机号验证错误')
+            })
         }
       })
     }
