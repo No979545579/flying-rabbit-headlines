@@ -4,15 +4,16 @@
       <el-aside :width="isOpen?'200px':'64px'">
         <div class="logo" :class="{smallLogo:!isOpen}"></div>
         <el-menu
-          default-active="1"
+          default-active="/"
           background-color="#002033"
           text-color="#fff"
           active-text-color="#ffd04b"
           style="border-right:none"
           :collapse="!isOpen"
           :collapse-transition="false"
+          router
         >
-          <el-menu-item v-for="(iteam,i) in menu" :key="i" :index="iteam.id">
+          <el-menu-item v-for="(iteam,i) in menu" :key="i" :index="iteam.index">
             <i :class="iteam.icon"></i>
             <span slot="title">{{iteam.name}}</span>
           </el-menu-item>
@@ -50,13 +51,38 @@ export default {
   data () {
     return {
       menu: [
-        { id: '1', name: '首页', icon: 'el-icon-s-home' },
-        { id: '2', name: '内容管理', icon: 'el-icon-document' },
-        { id: '3', name: '素材管理', icon: 'el-icon-picture' },
-        { id: '4', name: '发布文章', icon: 'el-icon-s-promotion' },
-        { id: '5', name: '评论管理', icon: 'el-icon-chat-dot-round' },
-        { id: '6', name: '粉丝管理', icon: 'el-icon-present' },
-        { id: '7', name: '个人设置', icon: 'el-icon-setting' }
+        { id: '1', name: '首页', icon: 'el-icon-s-home', index: '/' },
+        {
+          id: '2',
+          name: '内容管理',
+          icon: 'el-icon-document',
+          index: '/article'
+        },
+        { id: '3', name: '素材管理', icon: 'el-icon-picture', index: '/image' },
+        {
+          id: '4',
+          name: '发布文章',
+          icon: 'el-icon-s-promotion',
+          index: '/publish'
+        },
+        {
+          id: '5',
+          name: '评论管理',
+          icon: 'el-icon-chat-dot-round',
+          index: '/comment'
+        },
+        {
+          id: '6',
+          name: '粉丝管理',
+          icon: 'el-icon-present',
+          index: '/fans'
+        },
+        {
+          id: '7',
+          name: '个人设置',
+          icon: 'el-icon-setting',
+          index: '/setting'
+        }
       ],
       isOpen: true
     }
